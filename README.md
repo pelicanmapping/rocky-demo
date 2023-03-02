@@ -1,5 +1,5 @@
 # :mountain: rocky-demo
-Here is a simple template project that demonstrates how to build a [Rocky](https://github.com/pelicanmapping/rocky) application!
+Here is a simple template project that demonstrates how to build a [Rocky](https://github.com/pelicanmapping/rocky) application!<img align="right" width="200" alt="Screenshot 2023-02-22 124318" src="https://user-images.githubusercontent.com/326618/220712284-8a17d87a-431f-4966-a425-0f2628b23b40.png">
 
 ### Step 1 - Install vcpkg package manager
 [Follow the instructions here](https://vcpkg.io/en/getting-started.html) to install vcpkg on your system.
