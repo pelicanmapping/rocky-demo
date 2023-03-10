@@ -18,7 +18,7 @@ int main(int argc, char** argv)
     // add an imagery layer
     auto imagery = rocky::TMSImageLayer::create();
     imagery->setURI("https://readymap.org/readymap/tiles/1.0.0/7/");
-    engine.map()->addLayer(imagery);
+    engine.map()->layers().add(imagery);
 
     if (imagery->status().failed())
         return error(imagery->status());
@@ -26,7 +26,7 @@ int main(int argc, char** argv)
     // add an elevation layer
     auto elevation = rocky::TMSElevationLayer::create();
     elevation->setURI("https://readymap.org/readymap/tiles/1.0.0/116/");
-    engine.map()->addLayer(elevation);
+    engine.map()->layers().add(elevation);
 
     if (elevation->status().failed())
         return error(elevation->status());
