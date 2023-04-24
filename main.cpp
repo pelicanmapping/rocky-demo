@@ -1,5 +1,5 @@
 
-#include <rocky_vsg/EngineVSG.h>
+#include <rocky_vsg/Application.h>
 
 #include <rocky/TMSImageLayer.h>
 #include <rocky/TMSElevationLayer.h>
@@ -13,12 +13,12 @@ int error(const rocky::Status& status)
 int main(int argc, char** argv)
 {
     // instantiate the engine.
-    rocky::EngineVSG engine(argc, argv);
+    rocky::Application app(argc, argv);
 
     // add an imagery layer
     auto imagery = rocky::TMSImageLayer::create();
     imagery->setURI("https://readymap.org/readymap/tiles/1.0.0/7/");
-    engine.map()->layers().add(imagery);
+    app.map()->layers().add(imagery);
 
     if (imagery->status().failed())
         return error(imagery->status());
@@ -26,11 +26,11 @@ int main(int argc, char** argv)
     // add an elevation layer
     auto elevation = rocky::TMSElevationLayer::create();
     elevation->setURI("https://readymap.org/readymap/tiles/1.0.0/116/");
-    engine.map()->layers().add(elevation);
+    app.map()->layers().add(elevation);
 
     if (elevation->status().failed())
         return error(elevation->status());
 
     // run until the user quits.
-    return engine.run();
+    return app.run();
 }
