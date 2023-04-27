@@ -19,7 +19,13 @@ The initial bootstrap may take a while as vcpkg builds all your dependencies.
 
 ### Step 3 - Build the project
 Load the `rocky-demo.sln` file in your build folder and build the INSTALL target. The executable should end up in your install folder.
+
+### Step 4 - Try it.
+Set a couple environment variables to Rocky knows where to find its data.
 ```bat
+set ROCKY_FILE_PATH=%rocky_install_dir%/share
+set PROJ_DATA=%proj_install_dir%/share/proj
+
 rocky-demo.exe
 ```
 
