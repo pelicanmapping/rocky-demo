@@ -1,10 +1,9 @@
 {
-  "name": "vsg",
-  "version": "1.0.9",
+  "name": "vsgimgui",
+  "version": "0.0.0",
   "homepage": "",
   "description": "",
   "dependencies": [
-    "glslang",
     {
       "name": "vcpkg-cmake",
       "host": true
@@ -13,6 +12,6 @@
       "name": "vcpkg-cmake-config",
       "host": true
     },
-    "vulkan"
+    "vsg"
   ]
 }
