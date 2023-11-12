@@ -6,11 +6,6 @@ project(rocky-demo VERSION 0.2.0 LANGUAGES CXX C)
 
 find_package(rocky CONFIG REQUIRED)
 
-find_package(EnTT CONFIG REQUIRED)
-find_package(vsg CONFIG REQUIRED)
-find_package(vsgXchange CONFIG REQUIRED)
-find_package(glslang CONFIG REQUIRED)
-
 add_executable(rocky-demo main.cpp)
 
 target_link_libraries(rocky-demo PRIVATE rocky::rocky)
