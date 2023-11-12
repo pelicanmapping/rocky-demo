@@ -7,12 +7,23 @@ set VCPKG_TOOLCHAIN_FILE=%VCPKG_DIR%\scripts\buildsystems\vcpkg.cmake
 
 if not exist %VCPKG_TOOLCHAIN_FILE% (
     set ERROR_MSG=Please set the VCPKG_DIR environment variable to your vcpkg install location
-    goto usage
+    goto :usage
 )
+
+:: Detect visual studio version
+set VS_VERSION=Visual Studio 17 2022
+reg query "HKEY_CLASSES_ROOT\VisualStudio.DTE.14" >> nul 2>&1
+if %ERRORLEVEL% EQU 0 ( set VS_VERSION=Visual Studio 14 2015 )
+reg query "HKEY_CLASSES_ROOT\VisualStudio.DTE.15" >> nul 2>&1
+if %ERRORLEVEL% EQU 0 ( set VS_VERSION=Visual Studio 15 2017 )
+reg query "HKEY_CLASSES_ROOT\VisualStudio.DTE.16" >> nul 2>&1
+if %ERRORLEVEL% EQU 0 ( set VS_VERSION=Visual Studio 16 2019 )
+reg query "HKEY_CLASSES_ROOT\VisualStudio.DTE.17" >> nul 2>&1
+if %ERRORLEVEL% EQU 0 ( set VS_VERSION=Visual Studio 17 2022 )
 
 :: Argument parser from: https://stackoverflow.com/a/8162578
 setlocal enableDelayedExpansion
-set "options=-S:. -B:..\build -I:..\install -G:"Visual Studio 16 2019" -A:x64"
+set "options=-S:. -B:..\build -I:..\install -G:"Visual Studio 17 2022" -A:x64"
 for %%O in (%options%) do for /f "tokens=1,* delims=:" %%A in ("%%O") do set "%%A=%%~B"
 :loopArgs
     if not "%~1"=="" (
@@ -51,21 +62,28 @@ call :realpath !-I!
 set INSTALL_DIR=%RETVAL%
 
 :: Ask for confirmation:
-echo Source location = %SOURCE_DIR%
-echo Build location = %BUILD_DIR%
+echo Source location  = %SOURCE_DIR%
+echo Build location   = %BUILD_DIR%
 echo Install location = %INSTALL_DIR%
-echo Compiler = %COMPILER%
-echo Architecture = %ARCHITECTURE%
+echo Compiler         = %COMPILER%
+echo Architecture     = %ARCHITECTURE%
 choice /C:YN /M Continue?
 if ERRORLEVEL == 2 goto :usage
 
-if not exist "%SOURCE_DIR%\vcpkg.json" (
-    set ERROR_MSG=No vcpkg.json found in source folder. Run this script from the root folder of the git repository
+set MANIFEST_DIR="%SOURCE_DIR%"
+
+if not exist "%MANIFEST_DIR%\vcpkg.json" (
+    set ERROR_MSG=No vcpkg.json manifest found. Run this script from the root folder of the git repository
     goto usage
 )
 
 :: Run CMAKE
 mkdir %BUILD_DIR%
+
+if exist %BUILD_DIR%\CMakeCache.txt (
+    del %BUILD_DIR%\CMakeCache.txt
+)
+
 cmake ^
     -S "%SOURCE_DIR%" ^
     -B "%BUILD_DIR%" ^
@@ -73,8 +91,9 @@ cmake ^
     -A %ARCHITECTURE% ^
     -DCMAKE_BUILD_TYPE=RelWithDebInfo ^
     -DCMAKE_INSTALL_PREFIX="%INSTALL_DIR%" ^
-    -DCMAKE_TOOLCHAIN_FILE=%VCPKG_TOOLCHAIN_FILE% 	
-    
+    -DCMAKE_TOOLCHAIN_FILE=%VCPKG_TOOLCHAIN_FILE% ^
+    -DVCPKG_MANIFEST_DIR="%MANIFEST_DIR%"
+
 goto end
 
 :usage
@@ -83,7 +102,7 @@ goto end
   )
   echo Usage: vcpkg-bootstrap.bat -S source_folder -B build_folder -I install_folder -G compiler -A architecture
   echo Example: 
-  echo    vcpkg-bootstrap.bat -S . -B ..\build -I ..\install -G "Visual Studio 16 2019" -A x64 
+  echo    vcpkg-bootstrap.bat -S . -B ..\build -I ..\install -G "Visual Studio 17 2022" -A x64 
 
 :end
   endlocal

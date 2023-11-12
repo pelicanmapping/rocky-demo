@@ -1,17 +1,18 @@
+# vsg 1.0.9
 vcpkg_from_github(
-	OUT_SOURCE_PATH SOURCE_PATH
-	REPO vsg-dev/VulkanSceneGraph
-    SHA512 e4894cbc7e0b9406522926866c51c879331a9fb36853b8165e989578aca07e2ff2121588ee6863120871a32c9abc7b815c2d8c8cf4b55619683cb403579ff222
-    REF aa28d625229c7a673fd68a47eaad18e67e4ef2ed
-	HEAD_REF master
+    OUT_SOURCE_PATH SOURCE_PATH
+    REPO vsg-dev/VulkanSceneGraph
+    REF 1ff7aa5de4c23aeb2201e20a89eaaa13bba77b4b
+    SHA512 23e99b9c62a987bfc014cbdbd3237cfebc94f5c045ec6c65295172aebbd97ee7df478395ab89f6d3fcbac04bfac97af3a2f1c8b1463bded3442e2bcc4fda53a1
+    HEAD_REF master
+	PATCHES devendor-glslang.patch
 )
 
-vcpkg_configure_cmake(
-    SOURCE_PATH "${SOURCE_PATH}"
-)
-
-vcpkg_install_cmake()
+vcpkg_cmake_configure(SOURCE_PATH "${SOURCE_PATH}")
+vcpkg_cmake_install()
 vcpkg_cmake_config_fixup(PACKAGE_NAME "vsg" CONFIG_PATH "lib/cmake/vsg")
 vcpkg_copy_pdbs()
 
-file(INSTALL ${SOURCE_PATH}/LICENSE.md DESTINATION ${CURRENT_PACKAGES_DIR}/share/${PORT} RENAME copyright)
+file(REMOVE_RECURSE "${CURRENT_PACKAGES_DIR}/debug/include")
+file(REMOVE_RECURSE "${CURRENT_PACKAGES_DIR}/debug/share")
+vcpkg_install_copyright(FILE_LIST "${SOURCE_PATH}/LICENSE.md")

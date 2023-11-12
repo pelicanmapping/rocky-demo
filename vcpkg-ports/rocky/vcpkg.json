@@ -1,6 +1,6 @@
 {
     "name": "rocky",
-    "version-string": "0.1",
+    "version-string": "0.2",
     "port-version": 1,
     "description": "Rocky by Pelican Mapping",
     "homepage": "https://github.com/pelicanmapping/rocky",
@@ -8,12 +8,19 @@
     "dependencies": [
         "cpp-httplib",
         "proj",
-        "gdal",
+        "entt",
+        { "name": "gdal", 
+          "default-features": false, 
+          "features": [ "recommended-features" ] },
         "glm",
         "nlohmann-json",
         "openssl",
+        "spdlog",
+        "sqlite3",
         "tinyxml",
         "vsg",
-        "vsgxchange"
+        { "name" : "vsgxchange",
+          "features": [ "assimp", "freetype" ] },
+        "zlib"
     ]
 }
