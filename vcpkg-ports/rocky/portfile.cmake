@@ -4,7 +4,7 @@ vcpkg_from_github(
 	OUT_SOURCE_PATH SOURCE_PATH
 	REPO pelicanmapping/rocky
 	HEAD_REF main
-    REF db49e68a085a57332befa30896061e9256d5e249
+    REF f46c18cb3ac272531c583b949c4c92e6305be77f
     SHA512 0
 )
 

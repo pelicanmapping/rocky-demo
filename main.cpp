@@ -11,7 +11,7 @@ int error(const rocky::Status& status)
 }
 
 int main(int argc, char** argv)
-{
+{    
     // instantiate the engine.
     rocky::Application app(argc, argv);
 
